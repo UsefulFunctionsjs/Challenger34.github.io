@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Draw</title>
+	<h1>My Awesome Half Circle</h1>
+	<h2>Yay</h2>
+</head>
+<body>
+<canvas id="myCanvas" 
+  			width="500px"
+  			height="500px"
+  			style="border: 10px dashed green"
+  			onclick="">
+</canvas>
+<script>
+
+var canvas = document.getElementById("myCanvas")
+var ctx = canvas.getContext("2d")
+function drawCircle(x, y, radius, color){
+	ctx.beginPath()
+	ctx.arc(x, y, radius, 0.79*Math.PI, 2.26*Math.PI)
+	ctx.strokeStyle = color
+	ctx.lineWidth = 7
+	ctx.stroke()
+}
+
+function drawCircles(){
+var colors = ["green","blue","red","black","yellow","purple","pink","magneta","gold","cyan", "orange", "indigo", "violet", "silver"]
+
+	for(var i = 0; i < 15; i++){
+		var colornum = Math.floor(Math.random() * colors.length)
+		var kolp = colors[colornum]
+		drawCircle(250, 275, i*17, kolp)
+	}
+	setTimeout(drawCircles, 150)
+}
+
+drawCircles()
+
+</script>
+</body>
+</html>
