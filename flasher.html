@@ -1,0 +1,59 @@
+<html>
+<style>
+
+html{
+	background-color: lightgreen;
+}
+
+button{
+	background-color: red;
+
+}
+
+
+</style>
+<canvas id="canvas"
+        width="500px"
+        height="500px"
+        style="border: 10px blue">
+</canvas>
+<script>
+var canvas = document.getElementById('canvas')
+var ctx = canvas.getContext('2d')
+
+function drawCircle(x, y, size, color){
+	ctx.beginPath()
+	ctx.arc(x, y, size, 0, 2*Math.PI)
+	ctx.fillStyle = color
+	ctx.fill()
+	ctx.closePath()
+}
+
+function myCoolAnimation(){
+	var colors = ["red", "yellow", "blue", "orange", "green", "indigo", "violet", "cyan", "magneta"]
+	var color = colors[Math.floor(Math.random()*colors.length)]
+	var x = Math.floor(Math.random()*500)
+	var y = Math.floor(Math.random()*500)
+	var r = Math.floor(Math.random()*20)
+	if(paused === false){
+	drawCircle(x, y, r, color)
+    }
+	if (paused === false){
+	  setTimeout(myCoolAnimation,10)
+	}
+}
+
+
+
+
+var paused = false
+
+
+</script>
+<br><br>
+<button onclick="paused = false; myCoolAnimation()"><h1>Play</h1></button>
+<button onclick="paused = true; myCoolAnimation()"><h1>Pause</h1></button>
+
+
+
+</html>
