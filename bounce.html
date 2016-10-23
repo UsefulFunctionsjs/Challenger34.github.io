@@ -26,14 +26,13 @@ h1{
 <canvas id="myCanvas" 
   			width="700px"
   			height="500px"
-  			style="border: 1px solid black"
-  			onclick="">
+  			style="border: 1px solid black">
 </canvas>
 
 <h1 id="ballPosition">0</h1>
-
+<script src="http://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-
 var canvas = document.getElementById("myCanvas")
 var context = canvas.getContext("2d")
 
@@ -183,12 +182,41 @@ function checkForBallAndFloorCollision(){
   }
 }  
 
+
+function Boom() {
+  $("#myCanvas").effect( "explode",{pieces: 600},2000,function(){
+    throw "stop execution";
+    return;
+} );
+}
+
+function youWin() {
+  var a = 0
+  for(var c = 0; c < brickColCount; c++){
+    for(var r = 0; r < brickRowCount; r++){
+      var b = bricks[c][r]
+      if(b.status === 0){
+        a++
+      }
+    }
+  }
+  if(a === brickColCount * brickRowCount){
+    clearInterval(cop)
+    context.fillStyle = "blue"
+    context.font = "60px cursive";
+    context.fillText("You Win", 200, 250);
+    setTimeout(Boom, 500);
+  }
+}
+
+
 function draw() {
     // Clear the canvas.
     context.clearRect(0, 0, canvas.width, canvas.height)
     drawCat()
     drawBricks()
     destroyBricks()
+    youWin()
 
     if (checkForPaddleAndBallCollision()){
       vx *= -1
