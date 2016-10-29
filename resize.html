@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html id="html">
+<head>
+<style>
+html{
+	background-color: blue;
+}
+
+.col1{
+	background-color: red;
+	color: #777;
+	padding: 10px;
+	width: 100px;
+
+}
+
+.col2{
+	background-color: #ff00ff;
+	margin: 30px;
+}
+
+
+</style>
+<title>Home</title>
+</head>
+<body>
+<h1 class="col1" id="changeMe">Hi class</h1>
+<h1 class="col2">Bye class</h1>
+<script>
+
+window.onresize = function(){
+	var colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet","cyan", "black", "white", "pink"]
+	var color = colors[Math.floor(Math.random() * colors.length)]
+	var h1 = document.getElementById('html').style["background-color"] = color
+	if(confirm("Are you sure you want to resive your window")){
+		alert("I dont think so")
+	} else {
+		window.location.href = "http://google.com"
+	}
+}
+
+</script>
+
+</body>
+</html>
