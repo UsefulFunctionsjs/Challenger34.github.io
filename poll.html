@@ -1,0 +1,106 @@
+ <canvas id="myChart" width="800" height="500"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+var population = ["Clinton", "Clinton", "Trump", "Clinton", "Clinton", "Trump", 
+"Trump", "Clinton", "Trump", "Trump", "Trump", "Clinton", "Clinton", 
+"Trump", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Trump", "Clinton", "Clinton", "Clinton", "Trump", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Trump", 
+"Trump", "Clinton", "Trump", "Trump", "Clinton", "Trump", "Trump", 
+"Clinton", "Trump", "Clinton", "Clinton", "Clinton", "Trump", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Trump", "Clinton", "Clinton", "Trump", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Trump", "Trump", "Clinton", "Clinton", 
+"Clinton", "Trump", "Trump", "Trump", "Trump", "Trump", "Clinton", 
+"Trump", "Trump", "Trump", "Clinton", "Clinton", "Trump", "Clinton", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Clinton", "Trump", "Clinton", "Trump", "Clinton", 
+"Trump", "Clinton", "Clinton", "Clinton", "Clinton", "Trump", 
+"Clinton", "Clinton", "Trump", "Clinton", "Clinton", "Clinton", 
+"Trump", "Clinton", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Clinton", "Trump", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Trump", 
+"Clinton", "Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Clinton", "Trump", 
+"Trump", "Clinton", "Clinton", "Clinton", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Clinton", "Trump", 
+"Trump", "Trump", "Clinton", "Trump", "Clinton", "Trump", "Clinton", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Trump", "Trump", "Clinton", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Clinton", "Trump", "Trump", "Clinton", "Trump", "Clinton", 
+"Trump", "Clinton", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump"]
+function sample(population, people){
+
+var R = 0
+var D = 0
+
+for (var i = 0; i < people; i++) {
+	if (population[Math.floor(Math.random()*people)] == "Trump"){
+		R++
+	} else{
+		D++
+	}
+}
+
+return [R, D]
+
+}
+
+
+function chart(sam){
+var ctx = document.getElementById("myChart").getContext("2d");
+
+
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ["Trump", "Clinton"],
+        datasets: [{
+            label: '# of Votes',
+            data: [sample(population, sam)[1],sample(population, sam)[0]],
+            backgroundColor: [
+                'red',
+                'blue'
+            ],
+            borderColor: [
+                'red',
+                'blue'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    	responsive: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+}
+
+
+chart(10)
+</script>
