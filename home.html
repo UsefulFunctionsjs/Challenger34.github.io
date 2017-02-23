@@ -351,7 +351,7 @@ th{
 </script>
 <script>
 /*
-var r = $.get("http://api.openweathermap.org/data/2.5/weather?q=Newton,ma&APPID=ff20168398af0336f31ec634073a9303&units=imperial")
+var r = $.get("https://api.openweathermap.org/data/2.5/weather?q=Newton,ma&APPID=ff20168398af0336f31ec634073a9303&units=imperial")
 var a = r.responseJSON
 */
 
@@ -494,7 +494,7 @@ function navio(q) {
     $(" #tt11 ").text(strftime('%a, %b %e', tt11))
     $(" #tt12 ").text(strftime('%a, %b %e', tt12))
     $(" #tt13 ").text(strftime('%a, %b %e', tt13))
-    var weatherForecast = "http://api.openweathermap.org/data/2.5/forecast?"
+    var weatherForecast = "https://api.openweathermap.org/data/2.5/forecast?"
     $.getJSON(weatherForecast, {
       q: q,
       APPID: "ff20168398af0336f31ec634073a9303",
@@ -506,7 +506,7 @@ function navio(q) {
         var date = strftime('%I : %M %p',convertUTCDateToLocalDate(new Date(x.list[i].dt_txt)))
         $(" #fc" + i).text(date)
         $(" #f" + i).text(x.list[i].main.temp + unescape('%B0') +"F.")
-        document.getElementById('fi' + i).innerHTML = '<img class="shrink" src="http://openweathermap.org/img/w/' + x.list[i].weather[0].icon + '.png">'
+        document.getElementById('fi' + i).innerHTML = '<img class="shrink" src="https://openweathermap.org/img/w/' + x.list[i].weather[0].icon + '.png">'
 
 
 
@@ -519,9 +519,9 @@ function navio(q) {
 
 
 function daytable(q) {
-var xhr = new XMLHttpRequest();
+var xhr = new XMLHttpsRequest();
 xhr.onreadystatechange = process;
-xhr.open("GET", "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + q + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.open("GET", "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + q + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
 function process()
 {
@@ -559,9 +559,9 @@ function run(q) {
 daytable(q)
 navio(q)
 
-var xhr = new XMLHttpRequest();
+var xhr = new XMLHttpsRequest();
 xhr.onreadystatechange = process;
-xhr.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=" + q + "&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" + q + "&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
 function process()
 {
@@ -604,7 +604,7 @@ for (var i = 0; i < info.length; i++) {
 
 
 
-document.getElementById('icon').innerHTML = '<img src="http://openweathermap.org/img/w/' + icon + '.png" class="expand">'
+document.getElementById('icon').innerHTML = '<img src="https://openweathermap.org/img/w/' + icon + '.png" class="expand">'
 
 
 
@@ -617,7 +617,7 @@ document.getElementById('icon').innerHTML = '<img src="http://openweathermap.org
 }
 
 function locate() {
-	$.get("http://ipinfo.io", function (response) {
+	$.get("https://ipinfo.io", function (response) {
     run(response.city + ", " + response.region + ", " + response.country); 
     $(" #loc ").val(response.city + ", " + response.region + ", " + response.country)
 }, "jsonp");
@@ -629,9 +629,9 @@ locate()
 
 
 function main(k) {
-var xhr = new XMLHttpRequest();
+var xhr = new XMLHttpsRequest();
 xhr.onreadystatechange = process;
-xhr.open("GET", "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + $(" #loc ").val() + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.open("GET", "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + $(" #loc ").val() + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
 function process()
 {
@@ -785,9 +785,9 @@ function init(x) {
 }
 
 function gr(ans) {
-var xhr = new XMLHttpRequest();
+var xhr = new XMLHttpsRequest();
 xhr.onreadystatechange = process;
-xhr.open("GET", "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + ans + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.open("GET", "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + ans + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
 function process()
 {
