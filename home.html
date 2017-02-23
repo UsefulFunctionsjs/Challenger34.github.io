@@ -519,7 +519,7 @@ function navio(q) {
 
 
 function daytable(q) {
-var xhr = new XMLHttpsRequest();
+var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
 xhr.open("GET", "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + q + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
@@ -559,7 +559,7 @@ function run(q) {
 daytable(q)
 navio(q)
 
-var xhr = new XMLHttpsRequest();
+var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
 xhr.open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" + q + "&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
@@ -629,7 +629,7 @@ locate()
 
 
 function main(k) {
-var xhr = new XMLHttpsRequest();
+var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
 xhr.open("GET", "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + $(" #loc ").val() + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
@@ -785,7 +785,7 @@ function init(x) {
 }
 
 function gr(ans) {
-var xhr = new XMLHttpsRequest();
+var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = process;
 xhr.open("GET", "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + ans + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
 xhr.send();
