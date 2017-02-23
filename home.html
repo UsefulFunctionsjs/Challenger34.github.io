@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html onmouseover="javascript: nu(); nu = noop;">
+<head>
+	<title>Weather</title>
+</head>
+<style>
+
+html{
+	background-color: skyblue;
+}
+
+#temp{
+   position:absolute;  
+   transition: .5s ease;
+   left: 10%;
+   top: 33%;
+   font-family: cursive;
+   font-size: 40px;
+   color: #800020;
+}
+
+#icon{
+   position:absolute;  
+   transition: .5s ease;
+   left: 10%;
+   top: 15%;
+}
+
+#info{
+   position:absolute;  
+   transition: .5s ease;
+   left: 30%;
+   top: 21%;
+   width: 250px;
+   line-height: 200%;
+   border: solid 1px black;
+}
+
+.info{
+   font-family: cursive;
+   font-size: 17px;
+   color: #800020;
+}
+
+
+#desc{
+   font-family: cursive;
+   font-size: 19px;
+   color: #800020;
+}
+
+#q{
+   position:absolute;  
+   transition: .5s ease;
+   left: 1%;
+   top: 45%;
+   height: 25px;
+   font-size: 15px;
+   font-family: cursive;
+   color: black;
+   background-color: rgba(0,0,0,0.1);
+   font-style: italic;
+   border: solid 1px #707070;
+   box-shadow: 0 0 5px 1px #969696;
+}
+
+::-webkit-input-placeholder { 
+  color: black;
+}
+::-moz-placeholder {
+  color: black;
+}
+:-ms-input-placeholder {
+  color: black;
+}
+:-moz-placeholder {
+  color: black;
+}
+
+#map {
+   position:absolute;  
+   transition: .5s ease;
+   left: 1%;
+   top: 58%;
+   height: 300px;
+   width: 50%;
+   margin-bottom: 20px;
+}
+
+#Chart{
+	 position:absolute;  
+   transition: .5s ease;
+   left: 55%;
+   top: 12%;
+   margin: 20px;
+   margin-right: 20px;
+}
+
+
+#bu{
+	 position:absolute;  
+   transition: .5s ease;
+	 left: 55%;
+   top: 10%;
+   background-color: rgba(0,0,0,0.4);
+   visibility: hidden;
+}
+
+
+#loc{
+  visibility: hidden;
+}
+
+
+#tab1{
+	position:absolute;  
+	transition: .5s ease;
+	left: 54%;
+	top: 92%;
+	border: 1px solid black;
+}
+
+#tab2{
+	position:absolute;  
+	transition: .5s ease;
+	left: 54%;
+	top: 102%;
+	border: 1px solid black;
+	margin-bottom: 15px;
+}
+
+
+
+#tab3{
+  position:absolute;  
+  transition: .5s ease;
+  left: 54%;
+  top: 69%;
+  border: 1px solid black;
+  margin-bottom: 15px;
+}
+
+#g{
+	 position:absolute;  
+   transition: .5s ease;
+	 left: 55%;
+   top: 10%;
+   font-family: cursive;
+   font-size: 19px;
+   color: #800020;
+}
+
+
+#tab1tx{
+	 position:absolute;  
+   transition: .5s ease;
+	 left: 54%;
+   top: 87%;
+   font-family: cursive;
+   font-size: 19px;
+   color: #800020;
+
+}
+
+
+#tab3tx{
+   position:absolute;  
+   transition: .5s ease;
+   left: 54%;
+   top: 64%;
+   font-family: cursive;
+   font-size: 19px;
+   color: #800020;
+}
+
+
+#tab1 td{
+  font-size: 17px;
+} 
+
+#tab2 td{
+  font-size: 17px;
+}
+
+img.expand {
+	  width: 10em; 
+}
+
+img.shrink {
+    width: 2em; 
+}
+
+
+
+a{
+	text-decoration: none;
+  color: blue;
+}
+
+td{
+	background-color: rgba(0,0,0,0.1);
+	font-size: 14px;
+	border: 1px solid black;
+}
+
+th{
+	background-color: rgba(0,0,0,0.1);
+	font-size: 14px;
+	border: 1px solid black;
+}
+
+</style>
+<link rel="stylesheet" type="text/css" href="index.css">
+<body>
+<nav>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li>
+            <a href="#">Forecast &#9662;</a>
+            <ul class="dropdown">
+                <li><a href="home.html" id="d0"></a></li>
+                <li><a href="1.html" id="d1"></a></li>
+                <li><a href="2.html" id="d2"></a></li>
+                <li><a href="3.html" id="d3"></a></li>
+                <li><a href="4.html" id="d4"></a></li>
+                <li><a href="5.html" id="d5"></a></li>
+                <li><a href="6.html" id="d6"></a></li>
+                <li><a href="7.html" id="d7"></a></li>
+                <li><a href="8.html" id="d8"></a></li>
+                <li><a href="9.html" id="d9"></a></li>
+                <li><a href="10.html" id="d10"></a></li>
+                <li><a href="11.html" id="d11"></a></li>
+                <li><a href="12.html" id="d12"></a></li>
+                <li><a href="13.html" id="d13"></a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<input type="text" id="q" placeholder="Location">
+
+<input type="text" id="loc">
+
+<button id="bu" onclick="gr($(' #loc ').val())">See graph for Next 2 Weeks Weather</button>
+
+<span id="g">Graph For The Next Two Weeks.</span>
+<span id="tab1tx">Daily forecast.</span>
+<span id="tab3tx">Hourly forecast.</span>
+
+<!--The start of the navs-->
+<nav id="desc"></nav>
+<nav id="map"></nav>
+<nav id="temp"></nav>
+<nav id="icon"></nav>
+<fieldset id="info">
+<nav id="info0" class="info"></nav>
+<nav id="info1" class="info"></nav>
+<nav id="info2" class="info"></nav>
+<nav id="info3" class="info"></nav>
+</fieldset>
+<!--The end of the navs-->
+
+
+<table id="tab1">
+  <tr>
+    <th><a href="home.html" id="tt0"></a></th>
+    <th><a href="1.html" id="tt1"></a></th>
+    <th><a href="2.html" id="tt2"></a></th>
+    <th><a href="3.html" id="tt3"></a></th>
+    <th><a href="4.html" id="tt4"></a></th>
+    <th><a href="5.html" id="tt5"></a></th>
+    <th><a href="6.html" id="tt6"></a></th>
+  </tr>
+  <tr>
+  	<td id="t0"></td>
+    <td id="t1"></td>
+    <td id="t2"></td>
+    <td id="t3"></td>
+    <td id="t4"></td>
+    <td id="t5"></td>
+    <td id="t6"></td>
+  </tr>
+</table>
+<table id="tab2">
+    <tr>
+    <th><a href="7.html" id="tt7"></a></th>
+    <th><a href="8.html" id="tt8"></a></th>
+    <th><a href="9.html" id="tt9"></a></th>
+    <th><a href="10.html" id="tt10"></a></th>
+    <th><a href="11.html" id="tt11"></a></th>
+    <th><a href="12.html" id="tt12"></a></th>
+    <th><a href="13.html" id="tt13"></a></th>
+  </tr>
+  <tr>
+    <td id="t7"></td>
+    <td id="t8"></td>
+    <td id="t9"></td>
+    <td id="t10"></td>
+    <td id="t11"></td>
+    <td id="t12"></td>
+    <td id="t13"></td>
+  </tr>
+</table>
+
+
+
+
+<table id="tab3">
+  <tr>
+    <th id="fc0"></th>
+    <th id="fc1"></th>
+    <th id="fc2"></th>
+    <th id="fc3"></th>
+    <th id="fc4"></th>
+    <th id="fc5"></th>
+    <th id="fc6"></th>
+    <th id="fc7"></th>
+  </tr>
+  <tr>
+    <td id="f0"></td>
+    <td id="f1"></td>
+    <td id="f2"></td>
+    <td id="f3"></td>
+    <td id="f4"></td>
+    <td id="f5"></td>
+    <td id="f6"></td>
+    <td id="f7"></td>
+  </tr>
+  <tr>
+    <td><nav id="fi0"></nav></td>
+    <td><nav id="fi1"></nav></td>
+    <td><nav id="fi2"></nav></td>
+    <td><nav id="fi3"></nav></td>
+    <td><nav id="fi4"></nav></td>
+    <td><nav id="fi5"></nav></td>
+    <td><nav id="fi6"></nav></td>
+    <td><nav id="fi7"></nav></td>
+  </tr>
+
+</table>
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNWPoPsIEmUEazbUy-S7d6otr2YxFPJUU&callback=initMap">
+</script>
+<script>
+/*
+var r = $.get("http://api.openweathermap.org/data/2.5/weather?q=Newton,ma&APPID=ff20168398af0336f31ec634073a9303&units=imperial")
+var a = r.responseJSON
+*/
+
+
+function strftime(sFormat, date) {
+  if (!(date instanceof Date)) date = new Date();
+  var nDay = date.getDay(),
+    nDate = date.getDate(),
+    nMonth = date.getMonth(),
+    nYear = date.getFullYear(),
+    nHour = date.getHours(),
+    aDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    aMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    aDayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334],
+    isLeapYear = function() {
+      if ((nYear&3)!==0) return false;
+      return nYear%100!==0 || nYear%400===0;
+    },
+    getThursday = function() {
+      var target = new Date(date);
+      target.setDate(nDate - ((nDay+6)%7) + 3);
+      return target;
+    },
+    zeroPad = function(nNum, nPad) {
+      return ('' + (Math.pow(10, nPad) + nNum)).slice(1);
+    };
+  return sFormat.replace(/%[a-z]/gi, function(sMatch) {
+    return {
+      '%a': aDays[nDay].slice(0,3),
+      '%A': aDays[nDay],
+      '%b': aMonths[nMonth].slice(0,3),
+      '%B': aMonths[nMonth],
+      '%c': date.toUTCString(),
+      '%C': Math.floor(nYear/100),
+      '%d': zeroPad(nDate, 2),
+      '%e': nDate,
+      '%F': date.toISOString().slice(0,10),
+      '%G': getThursday().getFullYear(),
+      '%g': ('' + getThursday().getFullYear()).slice(2),
+      '%H': zeroPad(nHour, 2),
+      '%I': zeroPad((nHour+11)%12 + 1, 2),
+      '%j': zeroPad(aDayCount[nMonth] + nDate + ((nMonth>1 && isLeapYear()) ? 1 : 0), 3),
+      '%k': '' + nHour,
+      '%l': (nHour+11)%12 + 1,
+      '%m': zeroPad(nMonth + 1, 2),
+      '%M': zeroPad(date.getMinutes(), 2),
+      '%p': (nHour<12) ? 'AM' : 'PM',
+      '%P': (nHour<12) ? 'am' : 'pm',
+      '%s': Math.round(date.getTime()/1000),
+      '%S': zeroPad(date.getSeconds(), 2),
+      '%u': nDay || 7,
+      '%V': (function() {
+              var target = getThursday(),
+                n1stThu = target.valueOf();
+              target.setMonth(0, 1);
+              var nJan1 = target.getDay();
+              if (nJan1!==4) target.setMonth(0, 1 + ((4-nJan1)+7)%7);
+              return zeroPad(1 + Math.ceil((n1stThu-target)/604800000), 2);
+            })(),
+      '%w': '' + nDay,
+      '%x': date.toLocaleDateString(),
+      '%X': date.toLocaleTimeString(),
+      '%y': ('' + nYear).slice(2),
+      '%Y': nYear,
+      '%z': date.toTimeString().replace(/.+GMT([+-]\d+).+/, '$1'),
+      '%Z': date.toTimeString().replace(/.+\((.+?)\)$/, '$1')
+    }[sMatch] || sMatch;
+  });
+}
+
+
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;   
+}
+
+function navio(q) {
+	  var d0 = new Date();
+    var d1 = new Date(d0.getTime() + (24 * 60 * 60 * 1000)) 
+    var d2 = new Date(d1.getTime() + (24 * 60 * 60 * 1000))
+    var d3 = new Date(d2.getTime() + (24 * 60 * 60 * 1000)) 
+    var d4 = new Date(d3.getTime() + (24 * 60 * 60 * 1000))
+    var d5 = new Date(d4.getTime() + (24 * 60 * 60 * 1000))
+    var d6 = new Date(d5.getTime() + (24 * 60 * 60 * 1000))
+    var d7 = new Date(d6.getTime() + (24 * 60 * 60 * 1000))
+    var d8 = new Date(d7.getTime() + (24 * 60 * 60 * 1000))
+    var d9 = new Date(d8.getTime() + (24 * 60 * 60 * 1000))
+    var d10 = new Date(d9.getTime() + (24 * 60 * 60 * 1000))
+    var d11 = new Date(d10.getTime() + (24 * 60 * 60 * 1000))
+    var d12 = new Date(d11.getTime() + (24 * 60 * 60 * 1000))
+    var d13 = new Date(d12.getTime() + (24 * 60 * 60 * 1000))
+
+    $(" #d0 ").text(strftime('%a, %b %e, %Y', d0))
+    $(" #d1 ").text(strftime('%a, %b %e, %Y', d1))
+    $(" #d2 ").text(strftime('%a, %b %e, %Y', d2))
+    $(" #d3 ").text(strftime('%a, %b %e, %Y', d3))
+    $(" #d4 ").text(strftime('%a, %b %e, %Y', d4))
+    $(" #d5 ").text(strftime('%a, %b %e, %Y', d5))
+    $(" #d6 ").text(strftime('%a, %b %e, %Y', d6))
+    $(" #d7 ").text(strftime('%a, %b %e, %Y', d7))
+    $(" #d8 ").text(strftime('%a, %b %e, %Y', d8))
+    $(" #d9 ").text(strftime('%a, %b %e, %Y', d9))
+    $(" #d10 ").text(strftime('%a, %b %e, %Y', d10))
+    $(" #d11 ").text(strftime('%a, %b %e, %Y', d11))
+    $(" #d12 ").text(strftime('%a, %b %e, %Y', d12))
+    $(" #d13 ").text(strftime('%a, %b %e, %Y', d13))
+		
+		var tt0 = new Date();
+    var tt1 = new Date(tt0.getTime() + (24 * 60 * 60 * 1000)) 
+    var tt2 = new Date(tt1.getTime() + (24 * 60 * 60 * 1000))
+    var tt3 = new Date(tt2.getTime() + (24 * 60 * 60 * 1000)) 
+    var tt4 = new Date(tt3.getTime() + (24 * 60 * 60 * 1000))
+    var tt5 = new Date(tt4.getTime() + (24 * 60 * 60 * 1000))
+    var tt6 = new Date(tt5.getTime() + (24 * 60 * 60 * 1000))
+    var tt7 = new Date(tt6.getTime() + (24 * 60 * 60 * 1000))
+    var tt8 = new Date(tt7.getTime() + (24 * 60 * 60 * 1000))
+    var tt9 = new Date(tt8.getTime() + (24 * 60 * 60 * 1000))
+    var tt10 = new Date(tt9.getTime() + (24 * 60 * 60 * 1000))
+    var tt11 = new Date(tt10.getTime() + (24 * 60 * 60 * 1000))
+    var tt12 = new Date(tt11.getTime() + (24 * 60 * 60 * 1000))
+    var tt13 = new Date(tt12.getTime() + (24 * 60 * 60 * 1000))
+
+    $(" #tt0 ").text(strftime('%a, %b %e', tt0))
+    $(" #tt1 ").text(strftime('%a, %b %e', tt1))
+    $(" #tt2 ").text(strftime('%a, %b %e', tt2))
+    $(" #tt3 ").text(strftime('%a, %b %e', tt3))
+    $(" #tt4 ").text(strftime('%a, %b %e', tt4))
+    $(" #tt5 ").text(strftime('%a, %b %e', tt5))
+    $(" #tt6 ").text(strftime('%a, %b %e', tt6))
+    $(" #tt7 ").text(strftime('%a, %b %e', tt7))
+    $(" #tt8 ").text(strftime('%a, %b %e', tt8))
+    $(" #tt9 ").text(strftime('%a, %b %e', tt9))
+    $(" #tt10 ").text(strftime('%a, %b %e', tt10))
+    $(" #tt11 ").text(strftime('%a, %b %e', tt11))
+    $(" #tt12 ").text(strftime('%a, %b %e', tt12))
+    $(" #tt13 ").text(strftime('%a, %b %e', tt13))
+    var weatherForecast = "http://api.openweathermap.org/data/2.5/forecast?"
+    $.getJSON(weatherForecast, {
+      q: q,
+      APPID: "ff20168398af0336f31ec634073a9303",
+      units: "imperial"
+    })
+    .done(function(x) {
+      // Grab the data so we can play with it in the Javascript console.
+      for (var i = 0; i < 8; i++) {
+        var date = strftime('%I : %M %p',convertUTCDateToLocalDate(new Date(x.list[i].dt_txt)))
+        $(" #fc" + i).text(date)
+        $(" #f" + i).text(x.list[i].main.temp + unescape('%B0') +"F.")
+        document.getElementById('fi' + i).innerHTML = '<img class="shrink" src="http://openweathermap.org/img/w/' + x.list[i].weather[0].icon + '.png">'
+
+
+
+      }
+    })
+
+
+}
+
+
+
+function daytable(q) {
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = process;
+xhr.open("GET", "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + q + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.send();
+function process()
+{
+  if (xhr.readyState == 4) {
+    var x = JSON.parse(xhr.responseText);
+
+
+$(" #t0 ").text(x.list[0].temp.day + unescape("%B0") + "F.")
+$(" #t1 ").text(x.list[1].temp.day + unescape("%B0") + "F.")
+$(" #t2 ").text(x.list[2].temp.day + unescape("%B0") + "F.")
+$(" #t3 ").text(x.list[3].temp.day + unescape("%B0") + "F.")
+$(" #t4 ").text(x.list[4].temp.day + unescape("%B0") + "F.")
+$(" #t5 ").text(x.list[5].temp.day + unescape("%B0") + "F.")
+$(" #t6 ").text(x.list[6].temp.day + unescape("%B0") + "F.")
+$(" #t7 ").text(x.list[7].temp.day + unescape("%B0") + "F.")
+$(" #t8 ").text(x.list[8].temp.day + unescape("%B0") + "F.")
+$(" #t9 ").text(x.list[9].temp.day + unescape("%B0") + "F.")
+$(" #t10 ").text(x.list[10].temp.day + unescape("%B0") + "F.")
+$(" #t11 ").text(x.list[11].temp.day + unescape("%B0") + "F.")
+$(" #t12 ").text(x.list[12].temp.day + unescape("%B0") + "F.")
+$(" #t13 ").text(x.list[13].temp.day + unescape("%B0") + "F.")
+
+
+
+
+}
+}
+}
+
+
+
+
+function run(q) {
+
+daytable(q)
+navio(q)
+
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = process;
+xhr.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=" + q + "&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.send();
+function process()
+{
+  if (xhr.readyState == 4) {
+    var x = JSON.parse(xhr.responseText);
+
+
+
+var humidity = x.main.humidity;
+var pressure = x.main.pressure;
+var temp = x.main.temp;
+var max_temp = x.main.temp_max;
+var min_temp = x.main.temp_min;
+var location = {lat: x.coord.lat, lng: x.coord.lon}
+var icon = x.weather[0].icon;
+var wind_speed = x.wind.speed;
+var desc = x.weather[0].description[0].toUpperCase() + x.weather[0].description.slice(1)
+
+
+initMap(location)
+
+document.getElementById("desc").innerText = "Weather for " + q + ": " + desc
+
+
+var info = ["Humidity: " + humidity + "%", "Wind Speed: " + wind_speed + " MPH", "Highest Tempreture: " + parseInt(max_temp) +  unescape('%B0') +
+	"F.","Lowest Tempreture: " + parseInt(min_temp) +  unescape('%B0') +
+	"F."]
+
+// Code starts here
+
+console.log(pressure)
+
+$(" #temp ").text(temp + unescape('%B0') +"F.")
+
+
+for (var i = 0; i < info.length; i++) {
+	$("#info" + i).text(info[i])
+};
+
+
+
+
+document.getElementById('icon').innerHTML = '<img src="http://openweathermap.org/img/w/' + icon + '.png" class="expand">'
+
+
+
+
+
+// Code ends here
+
+  }
+}
+}
+
+function locate() {
+	$.get("http://ipinfo.io", function (response) {
+    run(response.city + ", " + response.region + ", " + response.country); 
+    $(" #loc ").val(response.city + ", " + response.region + ", " + response.country)
+}, "jsonp");
+}
+
+
+
+locate()
+
+
+function main(k) {
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = process;
+xhr.open("GET", "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + $(" #loc ").val() + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.send();
+function process()
+{
+  if (xhr.readyState == 4) {
+    var x = JSON.parse(xhr.responseText);
+
+
+
+
+			if (k.keyCode === 13) {
+				var a = $(" #q ").val()
+				run(a)
+				$(" #loc ").val(a)
+				$(" #q ").val("")
+				init(x)
+				nuu()
+			}
+}
+}
+}
+
+
+
+
+
+function initMap(o) {
+  var place = o
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: place
+  });
+  var marker = new google.maps.Marker({
+    position: place,
+    map: map
+  });
+}
+
+
+
+
+
+
+
+</script>
+<canvas id="Chart" width="525" height="300">
+<script>
+
+
+function strftime(sFormat, date) {
+  if (!(date instanceof Date)) date = new Date();
+  var nDay = date.getDay(),
+    nDate = date.getDate(),
+    nMonth = date.getMonth(),
+    nYear = date.getFullYear(),
+    nHour = date.getHours(),
+    aDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    aMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    aDayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334],
+    isLeapYear = function() {
+      if ((nYear&3)!==0) return false;
+      return nYear%100!==0 || nYear%400===0;
+    },
+    getThursday = function() {
+      var target = new Date(date);
+      target.setDate(nDate - ((nDay+6)%7) + 3);
+      return target;
+    },
+    zeroPad = function(nNum, nPad) {
+      return ('' + (Math.pow(10, nPad) + nNum)).slice(1);
+    };
+  return sFormat.replace(/%[a-z]/gi, function(sMatch) {
+    return {
+      '%a': aDays[nDay].slice(0,3),
+      '%A': aDays[nDay],
+      '%b': aMonths[nMonth].slice(0,3),
+      '%B': aMonths[nMonth],
+      '%c': date.toUTCString(),
+      '%C': Math.floor(nYear/100),
+      '%d': zeroPad(nDate, 2),
+      '%e': nDate,
+      '%F': date.toISOString().slice(0,10),
+      '%G': getThursday().getFullYear(),
+      '%g': ('' + getThursday().getFullYear()).slice(2),
+      '%H': zeroPad(nHour, 2),
+      '%I': zeroPad((nHour+11)%12 + 1, 2),
+      '%j': zeroPad(aDayCount[nMonth] + nDate + ((nMonth>1 && isLeapYear()) ? 1 : 0), 3),
+      '%k': '' + nHour,
+      '%l': (nHour+11)%12 + 1,
+      '%m': zeroPad(nMonth + 1, 2),
+      '%M': zeroPad(date.getMinutes(), 2),
+      '%p': (nHour<12) ? 'AM' : 'PM',
+      '%P': (nHour<12) ? 'am' : 'pm',
+      '%s': Math.round(date.getTime()/1000),
+      '%S': zeroPad(date.getSeconds(), 2),
+      '%u': nDay || 7,
+      '%V': (function() {
+              var target = getThursday(),
+                n1stThu = target.valueOf();
+              target.setMonth(0, 1);
+              var nJan1 = target.getDay();
+              if (nJan1!==4) target.setMonth(0, 1 + ((4-nJan1)+7)%7);
+              return zeroPad(1 + Math.ceil((n1stThu-target)/604800000), 2);
+            })(),
+      '%w': '' + nDay,
+      '%x': date.toLocaleDateString(),
+      '%X': date.toLocaleTimeString(),
+      '%y': ('' + nYear).slice(2),
+      '%Y': nYear,
+      '%z': date.toTimeString().replace(/.+GMT([+-]\d+).+/, '$1'),
+      '%Z': date.toTimeString().replace(/.+\((.+?)\)$/, '$1')
+    }[sMatch] || sMatch;
+  });
+}
+
+
+function init(x) {
+    var ctx = $("#Chart").get(0).getContext("2d");
+   
+
+    var d0 = new Date();
+    var d1 = new Date(d0.getTime() + (24 * 60 * 60 * 1000)) 
+    var d2 = new Date(d1.getTime() + (24 * 60 * 60 * 1000))
+    var d3 = new Date(d2.getTime() + (24 * 60 * 60 * 1000)) 
+    var d4 = new Date(d3.getTime() + (24 * 60 * 60 * 1000))
+    var d5 = new Date(d4.getTime() + (24 * 60 * 60 * 1000))
+    var d6 = new Date(d5.getTime() + (24 * 60 * 60 * 1000))
+    var d7 = new Date(d6.getTime() + (24 * 60 * 60 * 1000))
+    var d8 = new Date(d7.getTime() + (24 * 60 * 60 * 1000))
+    var d9 = new Date(d8.getTime() + (24 * 60 * 60 * 1000))
+    var d10 = new Date(d9.getTime() + (24 * 60 * 60 * 1000))
+    var d11 = new Date(d10.getTime() + (24 * 60 * 60 * 1000))
+    var d12 = new Date(d11.getTime() + (24 * 60 * 60 * 1000))
+    var d13 = new Date(d12.getTime() + (24 * 60 * 60 * 1000))
+
+
+
+    var data = {
+        labels: [strftime('%b %e', d0), strftime('%b %e', d1), strftime('%b %e', d2), strftime('%b %e', d3), strftime('%b %e', d4), strftime('%b %e', d5), strftime('%b %e', d6), strftime('%b %e', d7), strftime('%b %e', d8), strftime('%b %e', d9), strftime('%b %e', d10), strftime('%b %e', d11),strftime('%b %e', d12), strftime('%b %e', d13)],
+        datasets: [
+            {
+                fillColor: "rgba(0,0,0,0.1)" /*rgba(151,187,205,1)*/,
+                strokeColor: "black" /*rgba(151,187,205,1)*/,
+                pointColor: "#800020" /*rgba(151,187,205,1)*/,
+                pointStrokeColor: "#fff",
+                data: [x.list[0].temp.day, x.list[1].temp.day, x.list[2].temp.day, x.list[3].temp.day, x.list[4].temp.day, x.list[5].temp.day, x.list[6].temp.day, x.list[7].temp.day, x.list[8].temp.day, x.list[9].temp.day,x.list[10].temp.day,x.list[11].temp.day,x.list[12].temp.day,x.list[13].temp.day]
+            }
+        ]
+    }
+
+    var myNewChart = new Chart(ctx).Line(data);
+}
+
+function gr(ans) {
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = process;
+xhr.open("GET", "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + ans + "&cnt=14&mode=json&APPID=ff20168398af0336f31ec634073a9303&units=imperial", true);
+xhr.send();
+function process()
+{
+  if (xhr.readyState == 4) {
+    var x = JSON.parse(xhr.responseText);
+
+
+
+
+
+
+
+
+init(x)
+
+}
+}
+}
+
+function noop() {};
+
+function nu() {
+	document.getElementById('bu').onclick()
+}
+
+function nuu() {
+	document.getElementById('bu').onclick()
+}
+
+
+
+
+document.addEventListener("keydown", main, false)
+
+
+
+</script>
+
+
+</body>
+</html>
